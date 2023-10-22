@@ -67,7 +67,7 @@ public class Client {
 	}
     public static void main(String[] args) {
     	
-    	
+    	//terrymacbook 192.168.0.192
     	Client sut = new Client("127.0.0.1",5003);
     	sut.connectToServer();
     	sut.sendToServer("testing");
