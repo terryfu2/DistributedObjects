@@ -7,22 +7,24 @@ import org.jdom2.output.XMLOutputter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
-
-import Client.ExampleClasses.Person;
 
 public class Serializer {
 	
 	private IdentityHashMap<Object, Integer> objectIds;
     private int objectIdCounter;
+    ArrayList<Object> objects;
 	
 	public Serializer() {
 		objectIds = new IdentityHashMap<>();
         objectIdCounter = 0;
 	}
-	public void serialize(ArrayList<Object>  objects, String xmlFileName) throws IOException {
+	
+	public void serialize(ArrayList<Object>  objects, String xmlFileName) throws IOException, IllegalArgumentException, IllegalAccessException {
         
+		this.objects = objects;
 		Document document = new Document();
         Element rootElement = new Element("serialized");
         document.setRootElement(rootElement);
@@ -38,35 +40,80 @@ public class Serializer {
         XMLOutputter xmlOutput = new XMLOutputter();
         xmlOutput.setFormat(Format.getPrettyFormat());
         try (FileWriter fileWriter = new FileWriter(xmlFileName)) {
-        	System.out.println("asdf");
-            xmlOutput.output(document, fileWriter);
+
+        	xmlOutput.output(document, fileWriter);
         }
     }
-	  private void serializeObject(Object obj, Element parentElement) {
-	        int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
-	        String className = obj.getClass().getSimpleName();
-
-	        Element objectElement = new Element("object");
-	        objectElement.setAttribute("class", className);
-	        objectElement.setAttribute("id", String.valueOf(objectId));
-	        parentElement.addContent(objectElement);
-
-	        // Serialize fields
-	        // For simplicity, assume that fields are only primitive types or references to other objects
-	        // You may need to handle other types and custom serialization logic
-	        // Also, handle arrays differently
-	        // ...
-
-	        // Add more logic here to serialize object fields
-
-	        // Example of serializing a field as a primitive
-	        Element fieldElement = new Element("field");
-	        fieldElement.setAttribute("name", "age");
-	        fieldElement.setAttribute("declaringclass", className);
-	        Element valueElement = new Element("value");
-	        valueElement.setText("30");
-	        fieldElement.addContent(valueElement);
-	        objectElement.addContent(fieldElement);
-	    }
 	
+	private void serializeObject(Object obj, Element parentElement) throws IllegalArgumentException, IllegalAccessException {
+		int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
+		String className = obj.getClass().getSimpleName();
+		
+		Element objectElement = new Element("object");
+		objectElement.setAttribute("class", className);
+		objectElement.setAttribute("id", String.valueOf(objectId));
+		parentElement.addContent(objectElement);
+		
+		Field[] fields = obj.getClass().getDeclaredFields();
+		
+		for(Field field:fields) {
+			Element fieldElement = new Element("field");
+
+			serializeFields(obj,field,fieldElement,parentElement);
+			objectElement.addContent(fieldElement);
+		}
+
+	}
+	
+	private Element serializeFields(Object obj, Field field, Element fieldElement,Element parentElement) throws IllegalArgumentException, IllegalAccessException {
+		
+    	field.setAccessible(true);
+
+		String className = obj.getClass().getSimpleName();
+		fieldElement.setAttribute("name", field.getName());
+		fieldElement.setAttribute("declaringclass", className);
+		
+		Object fieldValue;
+		fieldValue = field.get(obj);
+		
+		if(field.getType().isPrimitive()) {
+			Element valueElement = new Element("value");
+			valueElement.setText(fieldValue.toString());
+			fieldElement.addContent(valueElement);
+
+		}else {
+            if (fieldValue != null) {
+            	if(fieldValue.getClass().getName().contains("java")==false) {
+                	serializeObject(fieldValue,parentElement);
+
+            	}
+                int referencedObjectId = objectIds.computeIfAbsent(fieldValue, o -> objectIdCounter++);
+                Element referenceElement = new Element("reference");
+                referenceElement.setText(String.valueOf(referencedObjectId));
+                fieldElement.addContent(referenceElement);
+            }
+        }
+
+		return fieldElement;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

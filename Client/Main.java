@@ -17,7 +17,7 @@ public class Main {
     	try {
            
             Serializer serializer = new Serializer();
-            serializer.serialize(objects, "person.xml");
+            serializer.serialize(objects, "output.xml");
             System.out.println("Serialization complete.");
         } catch (IOException e) {
             e.printStackTrace();
