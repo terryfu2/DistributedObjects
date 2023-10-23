@@ -1,6 +1,9 @@
 package Client;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import Client.ExampleClasses.Person;
 
 public class Main {
 	
@@ -8,7 +11,17 @@ public class Main {
     	
     	ObjectCreator objectCreator = new ObjectCreator();
     	ArrayList<Object> objects = objectCreator.getSelectedObjects();
-    	printObjects(objects);
+    	//printObjects(objects);
+    	
+    	
+    	try {
+           
+            Serializer serializer = new Serializer();
+            serializer.serialize(objects, "person.xml");
+            System.out.println("Serialization complete.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public static void printObjects(ArrayList<Object> objects) {

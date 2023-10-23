@@ -8,6 +8,7 @@ import Client.ExampleClasses.ClassB;
 import Client.ExampleClasses.ClassC;
 import Client.ExampleClasses.ClassD;
 import Server.Server;
+import Client.ExampleClasses.Person;
 
 public class ObjectCreator {
 	
@@ -71,23 +72,32 @@ public class ObjectCreator {
 				selectedObjects.add(server);
 
 			}
+			else if(curr == '5') {
+				Person person = new Person("asdf",0);
+				selectedClasses.add(person.getClass());
+				selectedObjects.add(person);
+
+			}
 	    }
 		
 	}
-	public void createClasses() throws Exception {
+	public boolean createClasses() throws Exception {
 		
 		ClassA classA = new ClassA();
 		ClassB classB = new ClassB();
 		ClassD classD = new ClassD();
 		Client client = new Client("asdf",0);
 		Server server = new Server(0);
+		Person person = new Person("asdf",5);
 		
 		classes.add(classA.getClass());
 		classes.add(classB.getClass());
 		classes.add(classD.getClass());
 		classes.add(client.getClass());
 		classes.add(server.getClass());
+		classes.add(person.getClass());
 
+		return true;
 	}
 	
 	public void printClasses(ArrayList<Class> list) {
