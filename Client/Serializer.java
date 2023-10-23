@@ -7,6 +7,7 @@ import org.jdom2.output.XMLOutputter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -76,6 +77,44 @@ public class Serializer {
 		Object fieldValue;
 		fieldValue = field.get(obj);
 		
+		if(fieldValue == null) {
+			return fieldElement;
+		}
+		if (fieldValue.toString().contains("[")) {
+			System.out.println("adf");
+			
+	        int arrayLength = Array.getLength(fieldValue);
+	        
+	        fieldElement.setAttribute("length", String.valueOf(arrayLength));
+
+	        for (int i = 0; i < arrayLength; i++) {
+	            Object element = Array.get(fieldValue, i);
+	            Element arrayElement = new Element("value");
+
+	            if (element != null) {
+	                if (objectIds.containsKey(element)) {
+	                    // Reference to another object
+	                    Element referenceElement = new Element("reference");
+	                    referenceElement.setText(String.valueOf(objectIds.get(element)));
+	                    arrayElement.addContent(referenceElement);
+	                } else {
+	                    // Element is a standalone object
+	                	System.out.println(fieldValue.getClass().getName());
+	                	System.out.println(fieldValue.getClass().getComponentType());
+	                	
+	                	//parse pirmitive array
+	                	///
+	                	
+	     
+	                	if(fieldValue.getClass().getName().contains("java")==false) {
+		                    serializeObject(fieldValue.getClass().getComponentType(), arrayElement);
+
+	                	}
+	                }
+	            }
+	            fieldElement.addContent(arrayElement);
+	        }
+	    }
 		if(field.getType().isPrimitive()) {
 			Element valueElement = new Element("value");
 			valueElement.setText(fieldValue.toString());
@@ -96,6 +135,8 @@ public class Serializer {
 
 		return fieldElement;
 	}
+	
+	
 }
 
 

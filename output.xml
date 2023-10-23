@@ -1,60 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serialized>
-  <object class="ClassA" id="0">
-    <field name="val" declaringclass="ClassA">
-      <value>3</value>
-    </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
-    </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
-    </field>
-  </object>
-  <object class="ClassB" id="1">
-    <field name="val" declaringclass="ClassB">
-      <reference>2</reference>
-    </field>
-    <field name="val2" declaringclass="ClassB">
-      <reference>3</reference>
-    </field>
-    <field name="val3" declaringclass="ClassB" />
-  </object>
-  <object class="ClassA" id="2">
-    <field name="val" declaringclass="ClassA">
-      <value>3</value>
-    </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
-    </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
-    </field>
-  </object>
-  <object class="ClassA" id="3">
-    <field name="val" declaringclass="ClassA">
-      <value>12</value>
-    </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
-    </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
-    </field>
-  </object>
-  <object class="ClassD" id="4">
+  <object class="ClassD" id="0">
     <field name="val" declaringclass="ClassD">
-      <reference>5</reference>
+      <reference>1</reference>
     </field>
     <field name="val2" declaringclass="ClassD" />
     <field name="val3" declaringclass="ClassD">
       <value>34</value>
     </field>
     <field name="vallarray" declaringclass="ClassD">
-      <reference>6</reference>
+      <reference>2</reference>
+    </field>
+    <field name="custarray" declaringclass="ClassD">
+      <reference>3</reference>
+    </field>
+    <field name="intarray" declaringclass="ClassD">
+      <reference>4</reference>
     </field>
   </object>
-  <object class="ClassA" id="5">
+  <object class="ClassA" id="1">
     <field name="val" declaringclass="ClassA">
       <value>17</value>
     </field>
@@ -65,29 +29,7 @@
       <value>true</value>
     </field>
   </object>
-  <object class="ClassA[]" id="6" />
-  <object class="Client" id="7">
-    <field name="serverAddress" declaringclass="Client">
-      <reference>8</reference>
-    </field>
-    <field name="serverPort" declaringclass="Client">
-      <value>0</value>
-    </field>
-    <field name="socket" declaringclass="Client" />
-  </object>
-  <object class="Server" id="9">
-    <field name="serverPort" declaringclass="Server">
-      <value>0</value>
-    </field>
-    <field name="serverSocket" declaringclass="Server" />
-    <field name="clientSocket" declaringclass="Server" />
-  </object>
-  <object class="Person" id="10">
-    <field name="name" declaringclass="Person">
-      <reference>8</reference>
-    </field>
-    <field name="age" declaringclass="Person">
-      <value>0</value>
-    </field>
-  </object>
+  <object class="ClassA[]" id="2" />
+  <object class="ClassA[]" id="3" />
+  <object class="int[]" id="4" />
 </serialized>
