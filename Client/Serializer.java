@@ -19,6 +19,7 @@ public class Serializer {
     ArrayList<Object> objects;
 	
 	public Serializer() {
+		System.out.println("Inside Serializer ... ");
 		objectIds = new IdentityHashMap<>();
         objectIdCounter = 0;
 	}
@@ -44,16 +45,25 @@ public class Serializer {
 
         	xmlOutput.output(document, fileWriter);
         }
+        
     }
 	
 	private void serializeObject(Object obj, Element parentElement) throws IllegalArgumentException, IllegalAccessException {
 		int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
 		String className = obj.getClass().getSimpleName();
 		
+		
 		Element objectElement = new Element("object");
 		objectElement.setAttribute("class", className);
 		objectElement.setAttribute("id", String.valueOf(objectId));
 		parentElement.addContent(objectElement);
+		
+		if(obj.getClass().getName().contains("[")) {
+			
+			
+			serializeArray(obj,objectElement);
+		}
+		
 		
 		Field[] fields = obj.getClass().getDeclaredFields();
 		
@@ -65,6 +75,32 @@ public class Serializer {
 		}
 
 	}
+	
+	private void serializeArray(Object obj,Element parentElement) {
+		
+		parentElement.setAttribute("length", String.valueOf(Array.getLength(obj)));
+
+		for(int i = 0;i<Array.getLength(obj);i++) {
+					
+			if(Array.get(obj, i) == null) {
+				continue;
+			}
+			
+			if(Array.get(obj,i).getClass().toString().contains("java.lang")) {
+				Element valueElement = new Element("value");
+				valueElement.setText(Array.get(obj, i).toString());
+				parentElement.addContent(valueElement);
+			}
+			else {
+				int referencedObjectId = objectIds.computeIfAbsent(Array.get(obj, i), o -> objectIdCounter++);
+	            Element referenceElement = new Element("reference");
+	            referenceElement.setText(String.valueOf(referencedObjectId));
+	            parentElement.addContent(referenceElement);
+			}
+			
+		}
+	}
+
 	
 	private Element serializeFields(Object obj, Field field, Element fieldElement,Element parentElement) throws IllegalArgumentException, IllegalAccessException {
 		
@@ -81,39 +117,13 @@ public class Serializer {
 			return fieldElement;
 		}
 		if (fieldValue.toString().contains("[")) {
-			System.out.println("adf");
 			
-	        int arrayLength = Array.getLength(fieldValue);
-	        
-	        fieldElement.setAttribute("length", String.valueOf(arrayLength));
+			//serializeArray(obj,field,fieldElement,parentElement,fieldValue);
+			if(fieldValue.getClass().getName().contains("java")==false) {
+	            serializeObject(fieldValue, parentElement);
 
-	        for (int i = 0; i < arrayLength; i++) {
-	            Object element = Array.get(fieldValue, i);
-	            Element arrayElement = new Element("value");
+        	}
 
-	            if (element != null) {
-	                if (objectIds.containsKey(element)) {
-	                    // Reference to another object
-	                    Element referenceElement = new Element("reference");
-	                    referenceElement.setText(String.valueOf(objectIds.get(element)));
-	                    arrayElement.addContent(referenceElement);
-	                } else {
-	                    // Element is a standalone object
-	                	System.out.println(fieldValue.getClass().getName());
-	                	System.out.println(fieldValue.getClass().getComponentType());
-	                	
-	                	//parse pirmitive array
-	                	///
-	                	
-	     
-	                	if(fieldValue.getClass().getName().contains("java")==false) {
-		                    serializeObject(fieldValue.getClass().getComponentType(), arrayElement);
-
-	                	}
-	                }
-	            }
-	            fieldElement.addContent(arrayElement);
-	        }
 	    }
 		if(field.getType().isPrimitive()) {
 			Element valueElement = new Element("value");
@@ -122,7 +132,7 @@ public class Serializer {
 
 		}else {
             if (fieldValue != null) {
-            	if(fieldValue.getClass().getName().contains("java")==false) {
+            	if(fieldValue.getClass().getName().contains("java")==false && fieldValue.toString().contains("[") == false) {
                 	serializeObject(fieldValue,parentElement);
 
             	}
@@ -135,8 +145,6 @@ public class Serializer {
 
 		return fieldElement;
 	}
-	
-	
 }
 
 

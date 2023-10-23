@@ -19,7 +19,7 @@ public class ObjectCreator {
 	
 	public ObjectCreator() throws Exception {
 		
-		System.out.println("Object Creator: ");
+		System.out.println("Inside Object Creator: ");
 		this.createClasses();
 		this.printClasses(classes);
 		this.userInput();
