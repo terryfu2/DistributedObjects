@@ -15,28 +15,31 @@ public class Client {
 		
 		this.serverAddress=serverAddress;
 		this.serverPort=serverPort;
+		
+		
 	}
 	
 	public boolean connectToServer() {
 		
 		try {
-			
-			socket = new Socket(serverAddress, serverPort);
+
+			this.socket = new Socket(serverAddress, serverPort);
 	        System.out.println("connected");
-	        return true;
+	        //return true;
 	        
 		} catch (IOException e) {
 	        e.printStackTrace();
-	        return false;
+	        //return false;
 	    }
+		return true;
 	}
 	
 	public boolean sendToServer(String data) {
 		
 		try {
 			
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-	        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			ObjectOutputStream out = new ObjectOutputStream(this.socket.getOutputStream());
+	        ObjectInputStream in = new ObjectInputStream(this.socket.getInputStream());
 	        
 	        out.writeObject(data);
 	        
@@ -56,7 +59,7 @@ public class Client {
 		
 		try {
 			
-			socket.close();
+			this.socket.close();
 
 	        return true;
 	        
@@ -68,7 +71,7 @@ public class Client {
     public static void main(String[] args) {
     	
     	//terrymacbook 192.168.0.192
-    	Client sut = new Client("127.0.0.1",5003);
+    	Client sut = new Client("127.0.0.1",5010);
     	sut.connectToServer();
     	sut.sendToServer("testing");
     	sut.closeClient();

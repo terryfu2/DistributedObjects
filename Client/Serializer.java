@@ -24,7 +24,7 @@ public class Serializer {
         objectIdCounter = 0;
 	}
 	
-	public void serialize(ArrayList<Object>  objects, String xmlFileName) throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Document serialize(ArrayList<Object>  objects, String xmlFileName) throws IOException, IllegalArgumentException, IllegalAccessException {
         
 		this.objects = objects;
 		Document document = new Document();
@@ -45,7 +45,7 @@ public class Serializer {
 
         	xmlOutput.output(document, fileWriter);
         }
-        
+        return document;
     }
 	
 	private void serializeObject(Object obj, Element parentElement) throws IllegalArgumentException, IllegalAccessException {

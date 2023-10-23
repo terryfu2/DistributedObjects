@@ -13,10 +13,12 @@ class ClientServerTest {
 	
 	@Test
 	void testConnections() {
-		Server sut = new Server(5005);
-		Client cut = new Client("127.0.0.1",5005);
-		
+		Server sut = new Server(5012);
 		assertEquals(sut.startServer(),true);
+		
+		Client cut = new Client("127.0.0.1",5012);
+		
+		
 		assertEquals(cut.connectToServer(),true);
 		//assertEquals(sut.connectClient(),true);
 
@@ -27,10 +29,12 @@ class ClientServerTest {
 	@Test
 	void testSendingandRecieving() {
 		
-		Server sut = new Server(5010);
-		Client cut = new Client("127.0.0.1",5010);
+		Server sut = new Server(5011);
 		
 		assertEquals(sut.startServer(),true);
+		Client cut = new Client("127.0.0.1",5011);
+		
+		
 		
 		assertEquals(cut.connectToServer(),true);
 		
