@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import Client.ExampleClasses.ClassA;
 import Client.ExampleClasses.ClassB;
-import Client.ExampleClasses.ClassC;
 import Client.ExampleClasses.ClassD;
 import Server.Server;
 import Client.ExampleClasses.Person;
@@ -40,7 +39,7 @@ public class ObjectCreator {
 		Scanner reader = new Scanner(System.in);  
 		System.out.println("enter the numbers for the objects that wish to be created, with no spaces");
 		String line = reader.next();
-		reader.close();
+		//reader.close();
 		
 		for (int i = 0; i < line.length(); i++) {
 			

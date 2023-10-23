@@ -86,7 +86,7 @@ public class Server {
 	
     public static void main(String[] args) {
     	
-    	Server sut = new Server(5003);
+    	Server sut = new Server(5004);
     	sut.startServer();
     	sut.connectClient();
     	sut.recieve();

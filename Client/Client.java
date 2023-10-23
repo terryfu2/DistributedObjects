@@ -20,8 +20,9 @@ public class Client {
 	public boolean connectToServer() {
 		
 		try {
-			
-			socket = new Socket(serverAddress, serverPort);
+	        System.out.println("connected");
+
+			this.socket = new Socket(serverAddress, serverPort);
 	        System.out.println("connected");
 	        return true;
 	        
@@ -35,8 +36,8 @@ public class Client {
 		
 		try {
 			
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-	        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			ObjectOutputStream out = new ObjectOutputStream(this.socket.getOutputStream());
+	        ObjectInputStream in = new ObjectInputStream(this.socket.getInputStream());
 	        
 	        out.writeObject(data);
 	        
@@ -56,7 +57,7 @@ public class Client {
 		
 		try {
 			
-			socket.close();
+			this.socket.close();
 
 	        return true;
 	        
