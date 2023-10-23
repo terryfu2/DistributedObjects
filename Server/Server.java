@@ -14,7 +14,7 @@ public class Server {
 	
 	public Server(int serverPort) {
 			
-			this.serverPort=serverPort;
+		this.serverPort=serverPort;
 	}
 	
 	public boolean startServer() {
@@ -64,6 +64,8 @@ public class Server {
 	public boolean recieve() {
 		
 		try {
+            System.out.println("Server is waiting for a message...");
+
 			ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
@@ -74,7 +76,7 @@ public class Server {
             // Process data or perform any actions
 
             // Send a response back to the client
-            out.writeObject("Hello from the server!");
+            out.writeObject("XML Document Recieved");
 			
             return true;
             
@@ -86,7 +88,7 @@ public class Server {
 	
     public static void main(String[] args) {
     	
-    	Server sut = new Server(5014);
+    	Server sut = new Server(5010);
     	sut.startServer();
     	sut.connectClient();
     	sut.recieve();

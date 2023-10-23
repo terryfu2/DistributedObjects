@@ -10,8 +10,8 @@ import org.jdom2.output.XMLOutputter;
 
 public class Driver {
 	
-	private String serverAddress = "127.0.0.0";
-	private int serverPort = 5014;
+	private String serverAddress = "127.0.0.1";
+	private int serverPort = 5015;
 	private Document document;
 	public Driver() {
 		

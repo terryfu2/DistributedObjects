@@ -16,8 +16,12 @@ public class Client {
 		this.serverAddress=serverAddress;
 		this.serverPort=serverPort;
 		
+		
+	}
+	
+	public boolean connectToServer() {
+		
 		try {
-	        System.out.println("connected");
 
 			this.socket = new Socket(serverAddress, serverPort);
 	        System.out.println("connected");
@@ -27,10 +31,6 @@ public class Client {
 	        e.printStackTrace();
 	        //return false;
 	    }
-	}
-	
-	public boolean connectToServer() {
-		
 		return true;
 	}
 	
@@ -71,7 +71,7 @@ public class Client {
     public static void main(String[] args) {
     	
     	//terrymacbook 192.168.0.192
-    	Client sut = new Client("127.0.0.1",5014);
+    	Client sut = new Client("127.0.0.1",5010);
     	sut.connectToServer();
     	sut.sendToServer("testing");
     	sut.closeClient();
