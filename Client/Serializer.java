@@ -125,12 +125,19 @@ public class Serializer {
         	}
 
 	    }
+		System.out.println(field.getType().toString());
 		if(field.getType().isPrimitive()) {
 			Element valueElement = new Element("value");
 			valueElement.setText(fieldValue.toString());
 			fieldElement.addContent(valueElement);
 
-		}else {
+		}
+		else if(field.getType().toString().contains("String")) {
+			Element valueElement = new Element("value");
+			valueElement.setText(fieldValue.toString());
+			fieldElement.addContent(valueElement);
+		}
+		else {
             if (fieldValue != null) {
             	if(fieldValue.getClass().getName().contains("java")==false && fieldValue.toString().contains("[") == false) {
                 	serializeObject(fieldValue,parentElement);
