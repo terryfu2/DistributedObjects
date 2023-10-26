@@ -16,5 +16,6 @@ public class ClassD
     
     private ClassA[] custarray = {val,val2,val};
     private int[] intarray = {1,2,3,4};
-    private char[] chararry = {'a','b','c'};
+    //private char[] chararry = {'a','b','c'};
+    private boolean[] boolarray = {false,true,false};
 }

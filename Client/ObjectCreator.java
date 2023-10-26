@@ -106,36 +106,25 @@ public class ObjectCreator {
 				
 				field.setAccessible(true);
 				
-				//System.out.println(field.getType());
+				System.out.println(field.getType().toString());
 
 				if(field.getType().isPrimitive()) {
 					
-					System.out.println(field.getName() + " from " + field.getDeclaringClass().getSimpleName() + " is a " + field.getType() + " with value " + field.get(obj));
-					System.out.println("what would u like to change it to");
+					changePrimitiveField(field,obj);
 					
-					Scanner reader = new Scanner(System.in);  
-					String line = reader.next();
+				}
+				if(field.getType().toString().contains("[")) {
 					
-					//System.out.println(line);
-					
-					Parser parser = new Parser (line,field.getType());
-					parser.parse();
-					
-					if(field.getType()== int.class){
-						//System.out.println(parser.intVal);
-						field.set(obj, parser.intVal);
+					if(field.getType().getComponentType().isPrimitive()) {
+						
+						Object fieldValue = field.get(obj);
+						for(int i = 0;i<Array.getLength(fieldValue);i++) {
+							
+
+							changePrimitiveArrayValue(fieldValue,obj,i,field);
+						}
 					}
-					
-					else if(field.getType() == boolean.class){
-						//System.out.println(parser.intVal);
-						field.set(obj, parser.boolVal);
-					}
-					else if(field.getType() == double.class){
-						//System.out.println(parser.intVal);
-						field.set(obj, parser.doubleVal);
-					}
-					System.out.println(field.getName() + " changed to " + field.get(obj));
-					
+					//System.out.println(field.getType().getComponentType());
 				}
 				
 			}
@@ -143,7 +132,57 @@ public class ObjectCreator {
 		}
 	}
 	
+	public void changePrimitiveField(Field field,Object obj) throws IllegalArgumentException, IllegalAccessException {
+		
+		System.out.println(field.getName() + " from " + field.getDeclaringClass().getSimpleName() + " is a " + field.getType() + " with value " + field.get(obj));
+		System.out.println("what would u like to change it to");
+		
+		Scanner reader = new Scanner(System.in);  
+		String line = reader.next();
+				
+		Parser parser = new Parser (line,field.getType());
+		parser.parse();
+		
+		if(field.getType()== int.class){
+			field.set(obj, parser.intVal);
+		}
+		
+		else if(field.getType() == boolean.class){
+			field.set(obj, parser.boolVal);
+		}
+		else if(field.getType() == double.class){
+			field.set(obj, parser.doubleVal);
+		}
+		System.out.println(field.getName() + " changed to " + field.get(obj));
+	}
 	
+	public void changePrimitiveArrayValue(Object fieldValue,Object obj,int index,Field field) throws IllegalArgumentException, IllegalAccessException {
+		
+		System.out.println(field.getName()+ " from " + field.getDeclaringClass().getSimpleName() + " has value " + Array.get(fieldValue, index).toString() + " at index " + index);
+		System.out.println("what would u like to change it to");
+
+		Scanner reader = new Scanner(System.in);  
+		String line = reader.next();
+		
+		Parser parser = new Parser (line,field.getType().getComponentType());
+		parser.parse();
+		
+		if(field.getType().getComponentType()== int.class){
+			
+			Array.set(fieldValue, index, parser.intVal);
+		}
+		
+		else if(field.getType().getComponentType() == boolean.class){
+			
+			Array.set(fieldValue, index, parser.boolVal);
+		}
+		else if(field.getType().getComponentType() == double.class){
+			
+			Array.set(fieldValue, index, parser.doubleVal);
+		}
+		
+		System.out.println(field.getName() + " changed to " + Array.get(fieldValue, index) + " at index " + index);
+	}
 	
 	public boolean createClasses() throws Exception {
 		
