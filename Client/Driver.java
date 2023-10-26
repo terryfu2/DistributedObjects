@@ -22,17 +22,15 @@ public class Driver {
 		ObjectCreator objectCreator = new ObjectCreator();
     	ArrayList<Object> objects = objectCreator.getSelectedObjects();
     	printObjects(objects);
+    	objectCreator.changeFields();
     	
-    	try {
-           
-            Serializer serializer = new Serializer();
-            document = serializer.serialize(objects, "output.xml");
-            System.out.println("Serialization complete.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        /*  
+        Serializer serializer = new Serializer();
+        document = serializer.serialize(objects, "output.xml");
+        System.out.println("Serialization complete.");
+       
 		System.out.println("XML Document created");
-    	this.documentOptions();
+    	this.documentOptions();*/
 	}
 	
 	public void documentOptions() throws Exception{

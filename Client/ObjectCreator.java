@@ -1,6 +1,9 @@
 package Client;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import Client.ExampleClasses.ClassA;
@@ -14,16 +17,55 @@ public class ObjectCreator {
 	private ArrayList<Class> classes = new ArrayList<>();;
 	private ArrayList<Class> selectedClasses = new ArrayList<>();;
 	private ArrayList<Object> selectedObjects = new ArrayList<>();;
-	
+	private ArrayList<String> avaliableClasses = new ArrayList<>();
+	private ArrayList<Object> avaliableObjects = new ArrayList<>();;
+
 	
 	public ObjectCreator() throws Exception {
 		
 		System.out.println("Inside Object Creator: ");
 		this.createClasses();
-		this.printClasses(classes);
+		this.printClasses(avaliableObjects);
 		this.userInput();
+		
 	}
 	
+	class Parser{
+		
+		int intVal;
+		boolean boolVal;
+		double doubleVal;
+		String line;
+		Class type;
+		Parser(String line, Class type){
+			
+			this.line = line;
+			this.type =type;
+			
+		}
+		
+		void parse() {
+			
+			if(type==int.class) {
+				this.intVal = Integer.parseInt(line);
+			}
+			if(type==boolean.class) {
+				
+				if(line == "false") {
+					this.boolVal = false;
+
+				}
+				else if(line == "true"){
+					this.boolVal = true;
+				}
+			}
+			if(type == double.class) {
+				
+				this.doubleVal = Double.parseDouble(line);
+			}
+		}
+	}
+
 	public ArrayList<Class> getSelectedClasses(){
 		
 		return this.selectedClasses;
@@ -41,72 +83,96 @@ public class ObjectCreator {
 		String line = reader.next();
 		//reader.close();
 		
-		for (int i = 0; i < line.length(); i++) {
+		int count  = 0;
+		for(Object obj:avaliableObjects) {
 			
-			char curr = line.charAt(i);
-			
-			if(curr == '0') {
-				ClassA classA = new ClassA();
-				selectedClasses.add(classA.getClass());
-				selectedObjects.add(classA);
+			if(line.contains(Integer.toString(count))) {
+				selectedObjects.add(obj);
+				selectedClasses.add(obj.getClass());
 			}
-			else if(curr == '1') {
-				ClassB classB = new ClassB();
-				selectedClasses.add(classB.getClass());
-				selectedObjects.add(classB);
-			}
-			else if(curr == '2') {
-				ClassD classD = new ClassD();
-				selectedClasses.add(classD.getClass());
-				selectedObjects.add(classD);
-			}
-			else if(curr == '3') {
-				Client client = new Client("asdf",0);
-				selectedClasses.add(client.getClass());
-				selectedObjects.add(client);
-			}
-			else if(curr == '4') {
-				Server server = new Server(0);
-				selectedClasses.add(server.getClass());
-				selectedObjects.add(server);
-
-			}
-			else if(curr == '5') {
-				Person person = new Person("asdf",0);
-				selectedClasses.add(person.getClass());
-				selectedObjects.add(person);
-
-			}
-	    }
+			count++;
+		}
 		
 	}
+	
+	public void changeFields() throws IllegalArgumentException, IllegalAccessException {
+		
+		for(Object obj:selectedObjects) {
+			
+			Field[] fields = obj.getClass().getDeclaredFields();
+			//System.out.println(Arrays.toString(fields));
+			
+			for(Field field:fields) {
+				
+				field.setAccessible(true);
+				
+				//System.out.println(field.getType());
+
+				if(field.getType().isPrimitive()) {
+					
+					System.out.println(field.getName() + " from " + field.getDeclaringClass().getSimpleName() + " is a " + field.getType() + " with value " + field.get(obj));
+					System.out.println("what would u like to change it to");
+					
+					Scanner reader = new Scanner(System.in);  
+					String line = reader.next();
+					
+					//System.out.println(line);
+					
+					Parser parser = new Parser (line,field.getType());
+					parser.parse();
+					
+					if(field.getType()== int.class){
+						//System.out.println(parser.intVal);
+						field.set(obj, parser.intVal);
+					}
+					
+					else if(field.getType() == boolean.class){
+						//System.out.println(parser.intVal);
+						field.set(obj, parser.boolVal);
+					}
+					else if(field.getType() == double.class){
+						//System.out.println(parser.intVal);
+						field.set(obj, parser.doubleVal);
+					}
+					System.out.println(field.getName() + " changed to " + field.get(obj));
+					
+				}
+				
+			}
+			
+		}
+	}
+	
+	
+	
 	public boolean createClasses() throws Exception {
 		
-		ClassA classA = new ClassA();
-		ClassB classB = new ClassB();
-		ClassD classD = new ClassD();
-		Client client = new Client("asdf",0);
-		Server server = new Server(0);
-		Person person = new Person("asdf",5);
-		
-		classes.add(classA.getClass());
-		classes.add(classB.getClass());
-		classes.add(classD.getClass());
-		classes.add(client.getClass());
-		classes.add(server.getClass());
-		classes.add(person.getClass());
+		avaliableClasses.add("ClassA");
+		avaliableClasses.add("ClassB");
+		avaliableClasses.add("ClassD");
+		avaliableClasses.add("Client");
+		avaliableClasses.add("Server");
+		avaliableClasses.add("Person");
 
+		
+		for(String name: avaliableClasses) {
+			
+			Class tempClass = Class.forName("Client.ExampleClasses." +name);
+			Object tempObj = tempClass.newInstance();
+			classes.add(tempClass.getClass());
+			avaliableObjects.add(tempObj);
+		}
 		return true;
 	}
 	
-	public void printClasses(ArrayList<Class> list) {
+	public void printClasses(ArrayList<Object> list) {
 		
-		System.out.println("classes avaliable ...");
+		System.out.println("objects avaliable ...");
 
 		int count = 0;
-		for(Class curr:list) {
+		for(Object curr:list) {
 			
-			System.out.println(count + " "+ curr.getName().toString());
+			System.out.println(count + " "+ curr.getClass().getName());
 			count ++;
 		}
 

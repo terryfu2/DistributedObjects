@@ -125,7 +125,6 @@ public class Serializer {
         	}
 
 	    }
-		System.out.println(field.getType().toString());
 		if(field.getType().isPrimitive()) {
 			Element valueElement = new Element("value");
 			valueElement.setText(fieldValue.toString());
