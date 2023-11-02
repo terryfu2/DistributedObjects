@@ -24,7 +24,7 @@ public class Client {
 		try {
 
 			this.socket = new Socket(serverAddress, serverPort);
-	        System.out.println("connected");
+	        System.out.println("connected to server socket");
 	        //return true;
 	        
 		} catch (IOException e) {

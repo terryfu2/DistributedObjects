@@ -69,13 +69,9 @@ public class Server {
 			ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
-            // Receive data from the client
             Object receivedObject = in.readObject();
             System.out.println("Received: " + receivedObject);
 
-            // Process data or perform any actions
-
-            // Send a response back to the client
             out.writeObject("XML Document Recieved");
 			
             return true;

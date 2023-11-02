@@ -15,7 +15,7 @@ public class Driver {
 	private int serverPort = 5015;
 	private Document document;
 	private IdentityHashMap<Object, Integer> objectIds;
-
+	private int objectIdCounter;
 	
 	public Driver() {
 		
@@ -28,15 +28,15 @@ public class Driver {
     	printObjects(objects);
     	objectCreator.changeFields();
     	this.objectIds = objectCreator.getIdentityHashMap();
-    	
+    	this.objectIdCounter = objectCreator.getId();
     	//System.out.println(objectIds);
-        /*
-        Serializer serializer = new Serializer();
+    	objects = objectCreator.getSelectedObjects();
+        Serializer serializer = new Serializer(objectIds,objectIdCounter);
         document = serializer.serialize(objects, "output.xml");
         System.out.println("Serialization complete.");
        
 		System.out.println("XML Document created");
-    	this.documentOptions();*/
+    	this.documentOptions();
 	}
 	
 	public void documentOptions() throws Exception{

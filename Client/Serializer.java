@@ -11,6 +11,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.ListIterator;
 
 public class Serializer {
 	
@@ -18,10 +19,10 @@ public class Serializer {
     private int objectIdCounter;
     ArrayList<Object> objects;
 	
-	public Serializer() {
+	public Serializer(IdentityHashMap<Object, Integer> objectIds,int objectIdCounter) {
 		System.out.println("Inside Serializer ... ");
-		objectIds = new IdentityHashMap<>();
-        objectIdCounter = 0;
+		this.objectIds = objectIds;
+        this.objectIdCounter = objectIdCounter;
 	}
 	
 	public Document serialize(ArrayList<Object>  objects, String xmlFileName) throws IOException, IllegalArgumentException, IllegalAccessException {
@@ -31,6 +32,12 @@ public class Serializer {
         Element rootElement = new Element("serialized");
         document.setRootElement(rootElement);
         
+        /*
+        for (Object obj: objectIds.keySet()) {
+            System.out.println(obj + " " + objectIds.get(obj));
+            serializeObject(obj, rootElement);
+
+        }*/
         
         for(Object obj:objects) {
         	
@@ -50,10 +57,14 @@ public class Serializer {
 	
 	private void serializeObject(Object obj, Element parentElement) throws IllegalArgumentException, IllegalAccessException {
 		int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
+		
+		//int objectId = objectIds.get(obj);
 		String className = obj.getClass().getSimpleName();
 		
-		
+		//System.out.println(className.toString());
 		Element objectElement = new Element("object");
+		//Element objectElement = new Element(className.toString());
+
 		objectElement.setAttribute("class", className);
 		objectElement.setAttribute("id", String.valueOf(objectId));
 		parentElement.addContent(objectElement);
@@ -143,6 +154,9 @@ public class Serializer {
 
             	}
                 int referencedObjectId = objectIds.computeIfAbsent(fieldValue, o -> objectIdCounter++);
+                
+        		//int referencedObjectId = objectIds.get(obj);
+
                 Element referenceElement = new Element("reference");
                 referenceElement.setText(String.valueOf(referencedObjectId));
                 fieldElement.addContent(referenceElement);

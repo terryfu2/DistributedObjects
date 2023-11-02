@@ -119,7 +119,7 @@ public class ObjectCreator {
 				
 				field.setAccessible(true);
 				
-				System.out.println(field.getType());
+				//System.out.println(field.getType());
 
 				if(field.getType().isPrimitive()&&change) {
 					
@@ -141,12 +141,28 @@ public class ObjectCreator {
 						}
 					}
 					else {
-						System.out.println("is object array");
+						//System.out.println("is object array");
+						/*
+						Object fieldValue;
+			        	fieldValue = field.get(obj);
+
+			    		for(int i = 0;i<Array.getLength(fieldValue);i++) {
+			    			
+			    			if(Array.get(fieldValue, i) == null) {
+			    				continue;
+			    			}
+			    			//System.out.println(fieldValue.getClass().getComponentType().getSimpleName().toString());
+			    			Class tempClass = Class.forName("Client.ExampleClasses." +fieldValue.getClass().getComponentType().getSimpleName().toString());
+							Object tempObj = tempClass.newInstance();
+							objectId = objectIds.computeIfAbsent(tempObj, o -> objectIdCounter++);
+							selectedObjects.add(tempObj);
+			    		}*/
 					}
 					//System.out.println(field.getType().getComponentType());
 				}
 				else if(!field.getType().isPrimitive() && field!=null){
 					
+					/*
 					Object fieldValue;
 		        	fieldValue = field.get(obj);
 		        	if(fieldValue == null) {
@@ -154,8 +170,12 @@ public class ObjectCreator {
 		        	}
 					Class tempClass = Class.forName("Client.ExampleClasses." +fieldValue.toString());
 					Object tempObj = tempClass.newInstance();
-					
-					selectedObjects.add(tempObj);
+					//objectId = objectIds.computeIfAbsent(tempObj, o -> objectIdCounter++);
+					//selectedObjects.add(tempObj);
+					objectId = objectIds.computeIfAbsent(fieldValue, o -> objectIdCounter++);
+
+					selectedObjects.add(fieldValue);
+					*/
 				}
 			}
 			
@@ -263,4 +283,7 @@ public class ObjectCreator {
 		return this.objectIds;
 	}
 	
+	public int getId() {
+		return objectIdCounter;
+	}
 }

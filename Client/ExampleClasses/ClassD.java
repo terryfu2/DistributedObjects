@@ -14,7 +14,7 @@ public class ClassD
     private int val3=34;
     private ClassA[] vallarray = new ClassA[10];
     
-    private ClassA[] custarray = {val,val2,val};
+    private ClassA[] custarray = {new ClassA(20),val};
     private int[] intarray = {1,2,3,4};
     //private char[] chararry = {'a','b','c'};
     private boolean[] boolarray = {false,true,false};
