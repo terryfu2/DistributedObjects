@@ -1,34 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serialized>
-  <object class="ClassB" id="0">
-    <field name="val" declaringclass="ClassB">
-      <reference>1</reference>
-    </field>
-    <field name="val2" declaringclass="ClassB">
-      <reference>2</reference>
-    </field>
-    <field name="val3" declaringclass="ClassB" />
-  </object>
-  <object class="ClassA" id="1">
+  <object class="ClassA" id="0">
     <field name="val" declaringclass="ClassA">
-      <value>5</value>
+      <value>1</value>
     </field>
     <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
+      <value>5.0</value>
     </field>
     <field name="val3" declaringclass="ClassA">
-      <value>true</value>
-    </field>
-  </object>
-  <object class="ClassA" id="2">
-    <field name="val" declaringclass="ClassA">
-      <value>12</value>
-    </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
-    </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
+      <value>false</value>
     </field>
   </object>
 </serialized>

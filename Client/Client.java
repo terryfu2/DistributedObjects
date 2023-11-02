@@ -13,6 +13,8 @@ public class Client {
 	
 	public Client(String serverAddress, int serverPort) {
 		
+		System.out.println("Inside Client ...");
+
 		this.serverAddress=serverAddress;
 		this.serverPort=serverPort;
 		

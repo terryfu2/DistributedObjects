@@ -119,7 +119,7 @@ public class ObjectCreator {
 				
 				field.setAccessible(true);
 				
-				//System.out.println(field.getType());
+				System.out.println(field.getType());
 
 				if(field.getType().isPrimitive()&&change) {
 					

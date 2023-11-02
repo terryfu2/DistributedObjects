@@ -17,7 +17,7 @@ public class Driver {
 	private IdentityHashMap<Object, Integer> objectIds;
 	private int objectIdCounter;
 	
-	public Driver() {
+	public Driver() throws Exception {
 		
 	}
 	

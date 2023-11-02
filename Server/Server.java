@@ -11,9 +11,11 @@ public class Server {
 	private int serverPort;
 	ServerSocket serverSocket;
 	Socket clientSocket;
+	String xmlDocument;
 	
 	public Server(int serverPort) {
-			
+		
+		System.out.println("Inside Server ...");
 		this.serverPort=serverPort;
 	}
 	
@@ -70,8 +72,12 @@ public class Server {
             ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 
             Object receivedObject = in.readObject();
-            System.out.println("Received: " + receivedObject);
-
+            System.out.println("Received from client ");
+            
+            xmlDocument= receivedObject.toString();
+            
+            //System.out.println(xmlDocument);
+            
             out.writeObject("XML Document Recieved");
 			
             return true;
@@ -82,6 +88,10 @@ public class Server {
 	    } 
 	}
 	
+	public String getDocument() {
+		
+		return this.xmlDocument;
+	}
     public static void main(String[] args) {
     	
     	Server sut = new Server(5010);
