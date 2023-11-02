@@ -2,6 +2,7 @@ package Client;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.Scanner;
 
 import org.jdom2.Document;
@@ -13,6 +14,9 @@ public class Driver {
 	private String serverAddress = "127.0.0.1";
 	private int serverPort = 5015;
 	private Document document;
+	private IdentityHashMap<Object, Integer> objectIds;
+
+	
 	public Driver() {
 		
 	}
@@ -23,8 +27,10 @@ public class Driver {
     	ArrayList<Object> objects = objectCreator.getSelectedObjects();
     	printObjects(objects);
     	objectCreator.changeFields();
+    	this.objectIds = objectCreator.getIdentityHashMap();
     	
-        /*  
+    	//System.out.println(objectIds);
+        /*
         Serializer serializer = new Serializer();
         document = serializer.serialize(objects, "output.xml");
         System.out.println("Serialization complete.");

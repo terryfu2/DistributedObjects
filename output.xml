@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serialized>
-  <object class="ClassA" id="0">
-    <field name="val" declaringclass="ClassA">
-      <value>3</value>
+  <object class="ClassD" id="0">
+    <field name="val" declaringclass="ClassD">
+      <reference>1</reference>
     </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
+    <field name="val2" declaringclass="ClassD" />
+    <field name="val3" declaringclass="ClassD">
+      <value>1</value>
     </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
-    </field>
-  </object>
-  <object class="ClassB" id="1">
-    <field name="val" declaringclass="ClassB">
+    <field name="vallarray" declaringclass="ClassD">
       <reference>2</reference>
     </field>
-    <field name="val2" declaringclass="ClassB">
+    <field name="custarray" declaringclass="ClassD">
       <reference>3</reference>
     </field>
-    <field name="val3" declaringclass="ClassB" />
+    <field name="intarray" declaringclass="ClassD">
+      <reference>4</reference>
+    </field>
+    <field name="boolarray" declaringclass="ClassD">
+      <reference>5</reference>
+    </field>
   </object>
-  <object class="ClassA" id="2">
+  <object class="ClassA" id="1">
     <field name="val" declaringclass="ClassA">
-      <value>3</value>
+      <value>17</value>
     </field>
     <field name="val2" declaringclass="ClassA">
       <value>0.2</value>
@@ -31,15 +32,20 @@
       <value>true</value>
     </field>
   </object>
-  <object class="ClassA" id="3">
-    <field name="val" declaringclass="ClassA">
-      <value>12</value>
-    </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
-    </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
-    </field>
+  <object class="ClassA[]" id="2" length="10" />
+  <object class="ClassA[]" id="3" length="3">
+    <reference>1</reference>
+    <reference>1</reference>
+  </object>
+  <object class="int[]" id="4" length="4">
+    <value>1</value>
+    <value>1</value>
+    <value>1</value>
+    <value>1</value>
+  </object>
+  <object class="boolean[]" id="5" length="3">
+    <value>false</value>
+    <value>false</value>
+    <value>false</value>
   </object>
 </serialized>

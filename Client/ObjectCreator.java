@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IdentityHashMap;
 import java.util.Scanner;
 
 import Client.ExampleClasses.ClassA;
@@ -19,7 +20,9 @@ public class ObjectCreator {
 	private ArrayList<Object> selectedObjects = new ArrayList<>();;
 	private ArrayList<String> avaliableClasses = new ArrayList<>();
 	private ArrayList<Object> avaliableObjects = new ArrayList<>();;
-
+	
+	private IdentityHashMap<Object, Integer> objectIds;
+    private int objectIdCounter;
 	
 	public ObjectCreator() throws Exception {
 		
@@ -27,6 +30,9 @@ public class ObjectCreator {
 		this.createClasses();
 		this.printClasses(avaliableObjects);
 		this.userInput();
+		
+		objectIds = new IdentityHashMap<>();
+		objectIdCounter = 0;
 		
 	}
 	
@@ -66,15 +72,6 @@ public class ObjectCreator {
 		}
 	}
 
-	public ArrayList<Class> getSelectedClasses(){
-		
-		return this.selectedClasses;
-	}
-	
-	public ArrayList<Object> getSelectedObjects(){
-		
-		return this.selectedObjects;
-	}
 	
 	public void userInput() throws Exception {
 		
@@ -95,10 +92,26 @@ public class ObjectCreator {
 		
 	}
 	
-	public void changeFields() throws IllegalArgumentException, IllegalAccessException {
+	public void changeFields() throws IllegalArgumentException, IllegalAccessException, ClassNotFoundException, InstantiationException {
 		
-		for(Object obj:selectedObjects) {
+		System.out.println("would you like to change any field values (y, n)");
+		Scanner reader = new Scanner(System.in);  
+		String line = reader.next();
+		
+		System.out.println(line);
+		
+		boolean change = true;
+		if(line.equals("n")) {
+			System.out.println("no fields changed");
+			change = false;
+		}
+		//for(Object obj:selectedObjects) {
+		
+		for(int j = 0;j<selectedObjects.size();j++) {
 			
+			Object obj = selectedObjects.get(j);
+			int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
+
 			Field[] fields = obj.getClass().getDeclaredFields();
 			//System.out.println(Arrays.toString(fields));
 			
@@ -106,9 +119,9 @@ public class ObjectCreator {
 				
 				field.setAccessible(true);
 				
-				System.out.println(field.getType().toString());
+				System.out.println(field.getType());
 
-				if(field.getType().isPrimitive()) {
+				if(field.getType().isPrimitive()&&change) {
 					
 					changePrimitiveField(field,obj);
 					
@@ -117,6 +130,9 @@ public class ObjectCreator {
 					
 					if(field.getType().getComponentType().isPrimitive()) {
 						
+						if(!change) {
+							continue;
+						}
 						Object fieldValue = field.get(obj);
 						for(int i = 0;i<Array.getLength(fieldValue);i++) {
 							
@@ -124,17 +140,32 @@ public class ObjectCreator {
 							changePrimitiveArrayValue(fieldValue,obj,i,field);
 						}
 					}
+					else {
+						System.out.println("is object array");
+					}
 					//System.out.println(field.getType().getComponentType());
 				}
-				
+				else if(!field.getType().isPrimitive() && field!=null){
+					
+					Object fieldValue;
+		        	fieldValue = field.get(obj);
+		        	if(fieldValue == null) {
+		        		continue;
+		        	}
+					Class tempClass = Class.forName("Client.ExampleClasses." +fieldValue.toString());
+					Object tempObj = tempClass.newInstance();
+					
+					selectedObjects.add(tempObj);
+				}
 			}
 			
 		}
 	}
 	
 	public void changePrimitiveField(Field field,Object obj) throws IllegalArgumentException, IllegalAccessException {
+		int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
 		
-		System.out.println(field.getName() + " from " + field.getDeclaringClass().getSimpleName() + " is a " + field.getType() + " with value " + field.get(obj));
+		System.out.println(field.getName() + " from " + field.getDeclaringClass().getSimpleName() + " with id " + objectId + " is a " + field.getType() + " with value " + field.get(obj));
 		System.out.println("what would u like to change it to");
 		
 		Scanner reader = new Scanner(System.in);  
@@ -217,5 +248,19 @@ public class ObjectCreator {
 
 	}
 	
+	public ArrayList<Class> getSelectedClasses(){
+		
+		return this.selectedClasses;
+	}
+	
+	public ArrayList<Object> getSelectedObjects(){
+		
+		return this.selectedObjects;
+	}
+	
+	public IdentityHashMap<Object, Integer> getIdentityHashMap(){
+		
+		return this.objectIds;
+	}
 	
 }
