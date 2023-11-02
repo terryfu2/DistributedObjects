@@ -97,7 +97,7 @@ public class Deserializer {
                 } else if (field.getType() == String.class) {
                     field.set(obj, value.toString());
                 }else if(field.getType() == boolean.class){
-                	if(value == "false") {
+                	if(value.equals("false")) {
             			field.set(obj,false);
                 	}
                 	else {

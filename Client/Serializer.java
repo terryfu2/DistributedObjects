@@ -18,6 +18,7 @@ public class Serializer {
 	private IdentityHashMap<Object, Integer> objectIds;
     private int objectIdCounter;
     ArrayList<Object> objects;
+    String xmlFileName = "output.xml";
 	
 	public Serializer(IdentityHashMap<Object, Integer> objectIds,int objectIdCounter) {
 		System.out.println("Inside Serializer ... ");
@@ -25,7 +26,7 @@ public class Serializer {
         this.objectIdCounter = objectIdCounter;
 	}
 	
-	public Document serialize(ArrayList<Object>  objects, String xmlFileName) throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Document serialize(ArrayList<Object>  objects) throws IOException, IllegalArgumentException, IllegalAccessException {
         
 		this.objects = objects;
 		Document document = new Document();

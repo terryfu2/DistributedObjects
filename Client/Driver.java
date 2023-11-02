@@ -32,7 +32,7 @@ public class Driver {
     	//System.out.println(objectIds);
     	objects = objectCreator.getSelectedObjects();
         Serializer serializer = new Serializer(objectIds,objectIdCounter);
-        document = serializer.serialize(objects, "output.xml");
+        document = serializer.serialize(objects);
         System.out.println("Serialization complete.");
        
 		System.out.println("XML Document created");

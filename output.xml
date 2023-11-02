@@ -2,10 +2,10 @@
 <serialized>
   <object class="ClassA" id="0">
     <field name="val" declaringclass="ClassA">
-      <value>1</value>
+      <value>23</value>
     </field>
     <field name="val2" declaringclass="ClassA">
-      <value>5.0</value>
+      <value>42.0</value>
     </field>
     <field name="val3" declaringclass="ClassA">
       <value>false</value>
