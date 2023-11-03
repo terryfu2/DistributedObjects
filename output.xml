@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serialized>
-  <object class="DemoAll" id="0">
-    <field name="intVal" declaringclass="DemoAll">
-      <value>10</value>
-    </field>
-    <field name="intArry" declaringclass="DemoAll">
+  <object class="ObjectArray" id="0">
+    <field name="s1" declaringclass="ObjectArray">
       <reference>1</reference>
     </field>
-    <field name="classA" declaringclass="DemoAll">
+    <field name="s2" declaringclass="ObjectArray">
       <reference>2</reference>
     </field>
-    <field name="classAArrr" declaringclass="DemoAll">
+    <field name="s3" declaringclass="ObjectArray">
       <reference>3</reference>
     </field>
-  </object>
-  <object class="int[]" id="1" length="4">
-    <value>1</value>
-    <value>2</value>
-    <value>3</value>
-    <value>4</value>
-  </object>
-  <object class="ClassA" id="2">
-    <field name="val" declaringclass="ClassA">
-      <value>1</value>
-    </field>
-    <field name="val2" declaringclass="ClassA">
-      <value>0.2</value>
-    </field>
-    <field name="val3" declaringclass="ClassA">
-      <value>true</value>
+    <field name="simpleObjectArray" declaringclass="ObjectArray">
+      <reference>4</reference>
     </field>
   </object>
-  <object class="ClassA[]" id="3" length="2">
+  <object class="SimpleObject" id="1">
+    <field name="integerValue" declaringclass="SimpleObject">
+      <value>10</value>
+    </field>
+    <field name="anotherNumber" declaringclass="SimpleObject">
+      <value>2</value>
+    </field>
+  </object>
+  <object class="SimpleObject" id="2">
+    <field name="integerValue" declaringclass="SimpleObject">
+      <value>10</value>
+    </field>
+    <field name="anotherNumber" declaringclass="SimpleObject">
+      <value>2</value>
+    </field>
+  </object>
+  <object class="SimpleObject" id="3">
+    <field name="integerValue" declaringclass="SimpleObject">
+      <value>10</value>
+    </field>
+    <field name="anotherNumber" declaringclass="SimpleObject">
+      <value>2</value>
+    </field>
+  </object>
+  <object class="SimpleObject[]" id="4" length="3">
+    <reference>1</reference>
     <reference>2</reference>
-    <reference>4</reference>
+    <reference>3</reference>
   </object>
 </serialized>
