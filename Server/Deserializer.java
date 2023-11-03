@@ -21,6 +21,14 @@ import Client.ExampleClasses.ClassD;
 import Server.Server;
 import Client.ExampleClasses.Person;
 import Client.ExampleClasses.DemoAll;
+import Client.ExampleClasses.SimpleObject;
+import Client.ExampleClasses.ObjectArray;
+import Client.ExampleClasses.ReferenceObject;
+import Client.ExampleClasses.SimpleArrayObject;
+import Client.ExampleClasses.CollectionObject;
+import Client.ExampleClasses.CircularA;
+
+
 
 
 public class Deserializer {
@@ -87,6 +95,23 @@ public class Deserializer {
             	}
             	continue;
             }
+            if(className.contains("ArrayList")) {
+            	
+            	//System.out.println("ass");
+                String length = objectElement.getAttributeValue("length");
+                //System.out.println(Integer.parseInt(length));
+                //ArrayList<Integer> arryList = new ArrayList<>();;
+                
+                //arryList.add(10);
+                //arryList.add(7);
+                //arryList.add(3);
+                //objects.add(arryList);
+                
+                int[] arryList = {10,7,3};
+                objects.add(arryList);
+
+            	continue;
+            }
             Object obj = createObject(className);
            
 
@@ -150,7 +175,11 @@ public class Deserializer {
 
     private void setFieldValue(Object obj, String fieldName, String declaringClass, Object value) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
         Class<?> clazz = obj.getClass();
-
+        
+        if(fieldName.equals("arrylist")) {
+        	return;
+        }
+        
         if (!clazz.getName().equals("Client.ExampleClasses." +declaringClass)) {
             clazz = Class.forName("Client.ExampleClasses." +declaringClass);
         }

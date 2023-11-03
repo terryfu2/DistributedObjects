@@ -31,7 +31,7 @@ public class Driver {
 		Deserializer deserializer = new Deserializer();
 		objects = deserializer.deserialize(document);
 		
-		//System.out.println(objects);
+		System.out.println(objects);
 	}
 	public void visualize() throws Exception {
 		

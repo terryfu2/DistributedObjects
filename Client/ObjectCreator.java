@@ -13,6 +13,12 @@ import Client.ExampleClasses.ClassD;
 import Server.Server;
 import Client.ExampleClasses.Person;
 import Client.ExampleClasses.DemoAll;
+import Client.ExampleClasses.SimpleObject;
+import Client.ExampleClasses.ObjectArray;
+import Client.ExampleClasses.ReferenceObject;
+import Client.ExampleClasses.SimpleArrayObject;
+import Client.ExampleClasses.CollectionObject;
+import Client.ExampleClasses.CircularA;
 
 
 public class ObjectCreator {
@@ -101,7 +107,7 @@ public class ObjectCreator {
 		for(int j = 0;j<selectedObjects.size();j++) {
 			
 			Object obj = selectedObjects.get(j);
-			int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
+			//int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
 
 			Field[] fields = obj.getClass().getDeclaredFields();
 			//System.out.println(Arrays.toString(fields));
@@ -226,13 +232,20 @@ public class ObjectCreator {
 	
 	public boolean createClasses() throws Exception {
 		
-		avaliableClasses.add("ClassA");
-		avaliableClasses.add("ClassB");
-		avaliableClasses.add("ClassD");
-		avaliableClasses.add("Client");
-		avaliableClasses.add("Server");
-		avaliableClasses.add("Person");
+		//avaliableClasses.add("ClassA");
+		//avaliableClasses.add("ClassB");
+		//avaliableClasses.add("ClassD");
+		//avaliableClasses.add("Client");
+		//avaliableClasses.add("Server");
+		//avaliableClasses.add("Person");
 		avaliableClasses.add("DemoAll");
+		avaliableClasses.add("SimpleObject");
+		avaliableClasses.add("ReferenceObject");
+		avaliableClasses.add("SimpleArrayObject");
+		avaliableClasses.add("ObjectArray");
+		avaliableClasses.add("CollectionObject");
+		avaliableClasses.add("CircularA");
+
 
 		
 		for(String name: avaliableClasses) {

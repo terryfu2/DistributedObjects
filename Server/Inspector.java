@@ -35,6 +35,8 @@ public class Inspector {
     	objClass = isArray(obj,objClass,depth);
     	//obj = objClass.getDeclaredConstructor().newInstance();
     	
+    	System.out.println(obj.getClass().getName());
+    	
     	if(obj.getClass().getName().contains("[")) {
         	//System.out.println(obj.getClass().getComponentType().getName());
         	if(obj.getClass().getComponentType().getName().equals("int")) {
@@ -92,6 +94,7 @@ public class Inspector {
     
     public Class<?> isArray(Object obj,Class<?> objClass,int depth) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
     	if(obj.getClass().getName().contains("[")) {
+    		
         	System.out.println("Obj is an array");
         	
         	print("------ Array of type",obj.getClass().getComponentType().toString(),depth,objClass);
@@ -291,10 +294,15 @@ public class Inspector {
         	Object fieldValue;
         	fieldValue = field.get(obj);
         	
-        	//System.out.println(fieldValue);
+        	//System.out.println(field.getName());
         	
             if (fieldValue != null) {
             	
+            	if(field.getName().contains("arrylist")) {
+
+            		//System.out.println("------Field Value is an ArrayList");
+            		return "";
+            	}
             	if(fieldValue.toString().contains("[")) {
             		
             		print("------Field Value is an Array of type",fieldValue.getClass().getComponentType().toString(),depth,objClass);

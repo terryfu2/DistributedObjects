@@ -12,9 +12,11 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.ListIterator;
 import java.util.Scanner;
+import Client.ExampleClasses.CollectionObject;
 
 public class Serializer {
 	
@@ -43,9 +45,11 @@ public class Serializer {
             serializeObject(obj, rootElement);
 
         }*/
-        
         for(Object obj:objects) {
         	
+        	if(objectIds.containsKey(obj)) {
+        		continue;
+        	}
             serializeObject(obj, rootElement);
 
         }
@@ -121,6 +125,14 @@ public class Serializer {
 		
 		for(Field field:fields) {
 			Element fieldElement = new Element("field");
+			field.setAccessible(true);
+			//System.out.println(field);
+			//System.out.println(field.getClass().getTypeName());
+			if(field.toString().contains("ArrayList")) {
+				//System.out.println("arrylist");
+				serializeArrayList((ArrayList<?>)field.get(obj),parentElement,objectElement,field);
+				continue;
+			}
 
 			serializeFields(obj,field,fieldElement,parentElement);
 			objectElement.addContent(fieldElement);
@@ -128,6 +140,37 @@ public class Serializer {
 
 	}
 	
+	private void serializeArrayList(ArrayList<?> arrayList, Element parentElement,Element objectElement,Field field) {
+		int objectId = objectIds.computeIfAbsent(arrayList, o -> objectIdCounter++);
+		int referencedObjectId = objectIds.computeIfAbsent(arrayList, o -> objectIdCounter++);
+        
+		Element fieldElement = new Element("field");
+		fieldElement.setAttribute("name", field.getName());
+		Element referenceElement = new Element("reference");
+        referenceElement.setText(String.valueOf(referencedObjectId));
+        fieldElement.addContent(referenceElement);
+        objectElement.addContent(fieldElement);
+        
+		Element objectElement2 = new Element("object");
+		//Element objectElement = new Element(className.toString());
+
+		objectElement2.setAttribute("class", "ArrayList-Integer");
+		objectElement2.setAttribute("id", String.valueOf(objectId));
+		int counter = 0;
+		for (Object item : arrayList) {
+			
+			Element valueElement = new Element("value");
+			valueElement.setText(item.toString());
+			//fieldElement.addContent(valueElement);
+			objectElement2.addContent(valueElement);
+			counter++;
+			//System.out.println(item);
+		}
+		objectElement2.setAttribute("length",Integer.toString(counter) );
+
+		parentElement.addContent(objectElement2);
+
+	}
 	private void serializeArray(Object obj,Element parentElement) {
 		
 		parentElement.setAttribute("length", String.valueOf(Array.getLength(obj)));
@@ -172,7 +215,8 @@ public class Serializer {
 			
 			//serializeArray(obj,field,fieldElement,parentElement,fieldValue);
 			if(fieldValue.getClass().getName().contains("java")==false) {
-	            serializeObject(fieldValue, parentElement);
+				
+		        serializeObject(fieldValue, parentElement);
 
         	}
 			
