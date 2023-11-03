@@ -310,14 +310,16 @@ public class Inspector {
                     inspectObject(fieldValue, true, depth + 1);
                 } else {
                 	if(fieldValue.toString().contains("[")){
-
+                		
+                		return "";
+                				/*
                 		if(!field.getType().isPrimitive()) {
                     		print("------Field Value",parseObjectArray(fieldValue)+ " (" + fieldValue.hashCode()+")",depth,objClass);
 
                 		}else {
                     		print("------Field Value",parseObjectArray(fieldValue),depth,objClass);
 
-                		}
+                		}*/
                 	}
                 	else if(!field.getType().isPrimitive()) {
                 		print("------Field Value: ",fieldValue.toString() + " (" + fieldValue.hashCode()+")",depth,objClass);
