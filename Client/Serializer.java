@@ -5,6 +5,8 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import Client.ObjectCreator.Parser;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -12,6 +14,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.ListIterator;
+import java.util.Scanner;
 
 public class Serializer {
 	
@@ -19,11 +22,12 @@ public class Serializer {
     private int objectIdCounter;
     ArrayList<Object> objects;
     String xmlFileName = "output.xml";
+    private boolean change;
 	
-	public Serializer(IdentityHashMap<Object, Integer> objectIds,int objectIdCounter) {
-		System.out.println("Inside Serializer ... ");
+	public Serializer(IdentityHashMap<Object, Integer> objectIds,int objectIdCounter,boolean change) {
 		this.objectIds = objectIds;
         this.objectIdCounter = objectIdCounter;
+        this.change = change;
 	}
 	
 	public Document serialize(ArrayList<Object>  objects) throws IOException, IllegalArgumentException, IllegalAccessException {
@@ -56,6 +60,42 @@ public class Serializer {
         return document;
     }
 	
+	class Parser{
+		
+		int intVal;
+		boolean boolVal;
+		double doubleVal;
+		String line;
+		Class type;
+		Parser(String line, Class type){
+			
+			this.line = line;
+			this.type =type;
+			
+		}
+		
+		void parse() {
+			
+			if(type==int.class) {
+				this.intVal = Integer.parseInt(line);
+			}
+			if(type==boolean.class) {
+				
+				if(line == "false") {
+					this.boolVal = false;
+
+				}
+				else if(line == "true"){
+					this.boolVal = true;
+				}
+			}
+			if(type == double.class) {
+				
+				this.doubleVal = Double.parseDouble(line);
+			}
+		}
+	}
+
 	private void serializeObject(Object obj, Element parentElement) throws IllegalArgumentException, IllegalAccessException {
 		int objectId = objectIds.computeIfAbsent(obj, o -> objectIdCounter++);
 		
@@ -135,11 +175,15 @@ public class Serializer {
 	            serializeObject(fieldValue, parentElement);
 
         	}
-
+			
 	    }
 		if(field.getType().isPrimitive()) {
 			Element valueElement = new Element("value");
-			valueElement.setText(fieldValue.toString());
+			
+			changePrimitiveField(fieldValue,obj,field);
+			
+			//valueElement.setText(fieldValue.toString());
+			valueElement.setText(field.get(obj).toString());
 			fieldElement.addContent(valueElement);
 
 		}
@@ -165,6 +209,33 @@ public class Serializer {
         }
 
 		return fieldElement;
+	}
+	
+	public void changePrimitiveField(Object fieldValue, Object obj, Field field) throws IllegalArgumentException, IllegalAccessException {
+		
+		if(!change) {
+			return;
+		}
+		System.out.println(field.getName() + " from " + field.getDeclaringClass().getSimpleName() + " with value " + field.get(obj));
+		System.out.println("what would u like to change it to");
+		
+		Scanner reader = new Scanner(System.in);  
+		String line = reader.next();
+				
+		Parser parser = new Parser (line,field.getType());
+		parser.parse();
+		
+		if(field.getType()== int.class){
+			field.set(obj, parser.intVal);
+		}
+		
+		else if(field.getType() == boolean.class){
+			field.set(obj, parser.boolVal);
+		}
+		else if(field.getType() == double.class){
+			field.set(obj, parser.doubleVal);
+		}
+		System.out.println(field.getName() + " changed to " + field.get(obj));
 	}
 }
 

@@ -96,17 +96,6 @@ public class ObjectCreator {
 	
 	public void changeFields() throws IllegalArgumentException, IllegalAccessException, ClassNotFoundException, InstantiationException {
 		
-		System.out.println("would you like to change any field values (y, n)");
-		Scanner reader = new Scanner(System.in);  
-		String line = reader.next();
-		
-		//System.out.println(line);
-		
-		boolean change = true;
-		if(line.equals("n")) {
-			System.out.println("no fields changed");
-			change = false;
-		}
 		//for(Object obj:selectedObjects) {
 		
 		for(int j = 0;j<selectedObjects.size();j++) {
@@ -123,18 +112,16 @@ public class ObjectCreator {
 				
 				//System.out.println(field.getType());
 
-				if(field.getType().isPrimitive()&&change) {
+				if(field.getType().isPrimitive()) {
 					
-					changePrimitiveField(field,obj);
+					//changePrimitiveField(field,obj);
 					
 				}
 				if(field.getType().toString().contains("[")) {
 					
 					if(field.getType().getComponentType().isPrimitive()) {
 						
-						if(!change) {
-							continue;
-						}
+						
 						Object fieldValue = field.get(obj);
 						for(int i = 0;i<Array.getLength(fieldValue);i++) {
 							

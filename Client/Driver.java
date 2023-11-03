@@ -26,13 +26,31 @@ public class Driver {
 		ObjectCreator objectCreator = new ObjectCreator();
     	ArrayList<Object> objects = objectCreator.getSelectedObjects();
     	printObjects(objects);
-    	objectCreator.changeFields();
     	this.objectIds = objectCreator.getIdentityHashMap();
     	this.objectIdCounter = objectCreator.getId();
     	//System.out.println(objectIds);
     	objects = objectCreator.getSelectedObjects();
-        Serializer serializer = new Serializer(objectIds,objectIdCounter);
+    	
+    	System.out.println("would u like to change any field value (y,n)");
+    	Scanner reader = new Scanner(System.in);  
+		String line = reader.next();
+		
+		//System.out.println(line);
+		
+		boolean change = true;
+		if(line.equals("n")) {
+			System.out.println("no fields changed");
+			change = false;
+		}
+		else {
+	    	objectCreator.changeFields();
+
+		}
+		
+        Serializer serializer = new Serializer(objectIds,objectIdCounter,change);
         document = serializer.serialize(objects);
+		System.out.println("Inside Serializer ... ");
+
         System.out.println("Serialization complete.");
        
 		System.out.println("XML Document created");
