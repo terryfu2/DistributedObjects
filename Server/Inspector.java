@@ -43,6 +43,18 @@ public class Inspector {
         			print("------Field " + i +" ",Array.get(obj,i).toString(),depth,objClass);
         		}
         	}
+        	if(obj.getClass().getComponentType().getName().equals("Client.ExampleClasses.ClassA")) {
+        		
+        		for(int i = 0;i<Array.getLength(obj);i++) {
+        			
+        			if(Array.get(obj,i)==null) {
+
+        				continue;
+        			}
+
+        			print("------Field " + i +" ("+ Array.get(obj, i).hashCode()+") ",Array.get(obj,i).toString(),depth,objClass);
+        		}
+        	}
         	classDescription(recursive,depth,objClass);
         	return;
     	}
@@ -298,7 +310,7 @@ public class Inspector {
                     inspectObject(fieldValue, true, depth + 1);
                 } else {
                 	if(fieldValue.toString().contains("[")){
-                		
+
                 		if(!field.getType().isPrimitive()) {
                     		print("------Field Value",parseObjectArray(fieldValue)+ " (" + fieldValue.hashCode()+")",depth,objClass);
 

@@ -22,7 +22,7 @@
   </object>
   <object class="ClassA" id="2">
     <field name="val" declaringclass="ClassA">
-      <value>3</value>
+      <value>1</value>
     </field>
     <field name="val2" declaringclass="ClassA">
       <value>0.2</value>

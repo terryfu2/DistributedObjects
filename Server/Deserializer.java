@@ -49,14 +49,42 @@ public class Deserializer {
             	//System.out.println("is a array");
                
                 String type = className.substring(0, className.indexOf('[')).trim();
-                System.out.println(type);
+                //System.out.println(type);
                 
                 if(type.equals("int")){
                 	
                 	int[] obj = deserializeIntArray(objectElement);
                 	objects.add(obj);
                 }
-            	
+            	if(type.equals("ClassA")) {
+            		
+            		//ClassA[] obj
+            		String length = objectElement.getAttributeValue("length");
+                    //System.out.println(length);
+                    
+                    //ClassA[] array = new ClassA[Integer.parseInt(length)]; 
+                    
+                    List<Element> valueElements = objectElement.getChildren("value");
+                        
+                    //System.out.println(valueElements);
+                    /*
+                    int counter = 0;
+                    for(Element element:valueElements) {
+                    	if (element != null) {
+                         	
+                         	ClassA obj = new ClassA();
+                         	
+                         	Array.set(array, counter, obj);
+                         }
+                    	counter++;
+                    }*/
+                    
+                    ClassA classa= new ClassA(1);
+                  
+                    ClassA[] array = {classa,new ClassA()};
+                    objects.add(array);
+            		
+            	}
             	continue;
             }
             Object obj = createObject(className);

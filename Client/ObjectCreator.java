@@ -100,7 +100,7 @@ public class ObjectCreator {
 		Scanner reader = new Scanner(System.in);  
 		String line = reader.next();
 		
-		System.out.println(line);
+		//System.out.println(line);
 		
 		boolean change = true;
 		if(line.equals("n")) {
@@ -121,7 +121,7 @@ public class ObjectCreator {
 				
 				field.setAccessible(true);
 				
-				System.out.println(field.getType());
+				//System.out.println(field.getType());
 
 				if(field.getType().isPrimitive()&&change) {
 					
