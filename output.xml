@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serialized>
-  <object class="ClassA" id="0">
+  <object class="DemoAll" id="0">
+    <field name="intVal" declaringclass="DemoAll">
+      <value>10</value>
+    </field>
+    <field name="intArry" declaringclass="DemoAll">
+      <reference>1</reference>
+    </field>
+    <field name="classA" declaringclass="DemoAll">
+      <reference>2</reference>
+    </field>
+    <field name="classAArrr" declaringclass="DemoAll">
+      <reference>3</reference>
+    </field>
+  </object>
+  <object class="int[]" id="1" length="4">
+    <value>1</value>
+    <value>2</value>
+    <value>3</value>
+    <value>4</value>
+  </object>
+  <object class="ClassA" id="2">
     <field name="val" declaringclass="ClassA">
-      <value>23</value>
+      <value>3</value>
     </field>
     <field name="val2" declaringclass="ClassA">
-      <value>42.0</value>
+      <value>0.2</value>
     </field>
     <field name="val3" declaringclass="ClassA">
-      <value>false</value>
+      <value>true</value>
     </field>
+  </object>
+  <object class="ClassA[]" id="3" length="2">
+    <reference>2</reference>
+    <reference>4</reference>
   </object>
 </serialized>

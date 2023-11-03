@@ -7,8 +7,10 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,8 @@ import Client.ExampleClasses.ClassB;
 import Client.ExampleClasses.ClassD;
 import Server.Server;
 import Client.ExampleClasses.Person;
+import Client.ExampleClasses.DemoAll;
+
 
 public class Deserializer {
     private final Map<Integer, Object> objectMap = new HashMap<>();
@@ -34,11 +38,27 @@ public class Deserializer {
         Element root = document.getRootElement();
         List<Element> objectElements = root.getChildren("object");
 
+	    System.out.println(xmlString);
 	    
         for (Element objectElement : objectElements) {
             int objectId = Integer.parseInt(objectElement.getAttributeValue("id"));
             String className = objectElement.getAttributeValue("class");
-
+            
+            //System.out.println(className);
+            if(className.contains("[")) {
+            	//System.out.println("is a array");
+               
+                String type = className.substring(0, className.indexOf('[')).trim();
+                System.out.println(type);
+                
+                if(type.equals("int")){
+                	
+                	int[] obj = deserializeIntArray(objectElement);
+                	objects.add(obj);
+                }
+            	
+            	continue;
+            }
             Object obj = createObject(className);
            
 
@@ -68,7 +88,33 @@ public class Deserializer {
         //return objectMap.values().stream().toList();
         return objects;
     }
+    
+    private int[] deserializeIntArray(Element objectElement) throws NumberFormatException, NegativeArraySizeException, ClassNotFoundException {
+    	
+       
+        
+        String length = objectElement.getAttributeValue("length");
+        //System.out.println(length);
+        
+       
+        int[] array = new int[Integer.parseInt(length)];
+        	
+        List<Element> valueElements = objectElement.getChildren("value");
+            
+        //System.out.println(valueElements);
+        for(int i = 0;i< Integer.parseInt(length);i++) {
+        	
+        	Element valueElement = valueElements.get(i);
+            if (valueElement != null) {
 
+            	Array.set(array, i, Integer.parseInt(valueElement.getText()));
+            }
+        	
+        }
+        
+        //System.out.println(Arrays.toString(array));
+        return array;
+    }
     private Object createObject(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class<?> clazz = Class.forName("Client.ExampleClasses." +className);
         return clazz.newInstance();

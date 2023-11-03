@@ -35,6 +35,17 @@ public class Inspector {
     	objClass = isArray(obj,objClass,depth);
     	//obj = objClass.getDeclaredConstructor().newInstance();
     	
+    	if(obj.getClass().getName().contains("[")) {
+        	//System.out.println(obj.getClass().getComponentType().getName());
+        	if(obj.getClass().getComponentType().getName().equals("int")) {
+        		
+        		for(int i = 0;i<Array.getLength(obj);i++) {
+        			print("------Field " + i +" ",Array.get(obj,i).toString(),depth,objClass);
+        		}
+        	}
+        	classDescription(recursive,depth,objClass);
+        	return;
+    	}
     	classDescription(recursive,depth,objClass);
     	
     	//checkSuperClass(objClass,recursive,depth);
@@ -86,7 +97,7 @@ public class Inspector {
         	else {
 	        	objClass = obj.getClass().getComponentType();
 	        	
-	        	obj = objClass.getDeclaredConstructor().newInstance();
+	        	//obj = objClass.getDeclaredConstructor().newInstance();
         	//obj = new ClassA();
         	}
         }

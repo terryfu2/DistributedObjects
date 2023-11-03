@@ -12,6 +12,8 @@ import Client.ExampleClasses.ClassB;
 import Client.ExampleClasses.ClassD;
 import Server.Server;
 import Client.ExampleClasses.Person;
+import Client.ExampleClasses.DemoAll;
+
 
 public class ObjectCreator {
 	
@@ -243,6 +245,7 @@ public class ObjectCreator {
 		avaliableClasses.add("Client");
 		avaliableClasses.add("Server");
 		avaliableClasses.add("Person");
+		avaliableClasses.add("DemoAll");
 
 		
 		for(String name: avaliableClasses) {
