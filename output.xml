@@ -1,46 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <serialized>
-  <object class="ObjectArray" id="0">
-    <field name="s1" declaringclass="ObjectArray">
+  <object class="CollectionObject" id="0">
+    <field name="v1" declaringclass="CollectionObject">
+      <value>10</value>
+    </field>
+    <field name="v2" declaringclass="CollectionObject">
+      <value>7</value>
+    </field>
+    <field name="v3" declaringclass="CollectionObject">
+      <value>3</value>
+    </field>
+    <field name="arrylist">
       <reference>1</reference>
     </field>
-    <field name="s2" declaringclass="ObjectArray">
-      <reference>2</reference>
-    </field>
-    <field name="s3" declaringclass="ObjectArray">
-      <reference>3</reference>
-    </field>
-    <field name="simpleObjectArray" declaringclass="ObjectArray">
-      <reference>4</reference>
-    </field>
   </object>
-  <object class="SimpleObject" id="1">
-    <field name="integerValue" declaringclass="SimpleObject">
-      <value>10</value>
-    </field>
-    <field name="anotherNumber" declaringclass="SimpleObject">
-      <value>2</value>
-    </field>
-  </object>
-  <object class="SimpleObject" id="2">
-    <field name="integerValue" declaringclass="SimpleObject">
-      <value>10</value>
-    </field>
-    <field name="anotherNumber" declaringclass="SimpleObject">
-      <value>2</value>
-    </field>
-  </object>
-  <object class="SimpleObject" id="3">
-    <field name="integerValue" declaringclass="SimpleObject">
-      <value>10</value>
-    </field>
-    <field name="anotherNumber" declaringclass="SimpleObject">
-      <value>2</value>
-    </field>
-  </object>
-  <object class="SimpleObject[]" id="4" length="3">
-    <reference>1</reference>
-    <reference>2</reference>
-    <reference>3</reference>
+  <object class="ArrayList-Integer" id="1" length="3">
+    <value>10</value>
+    <value>7</value>
+    <value>3</value>
   </object>
 </serialized>
